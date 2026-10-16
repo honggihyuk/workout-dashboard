@@ -1,0 +1,199 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<title>오늘</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+KR:wght@400;500;600;700&amp;display=swap">
+<style>
+body{margin:0}
+a{color:#1F1F1F}a:hover{color:#000000}
+.card{border:1.5px solid #CFCFCF;border-radius:14px;padding:16px;background:#FFFFFF}
+.muted{font-size:13px;color:#5E5E5E}
+.chip{min-height:36px;padding:0 12px;border-radius:18px;font:inherit;font-size:14px;cursor:pointer;display:inline-flex;align-items:center;gap:6px}
+.chip-off{border:1.5px dashed #9A9A9A;background:#FFFFFF;color:#1F1F1F}
+.chip-on{border:1.5px solid #1F1F1F;background:#1F1F1F;color:#FFFFFF}
+.btn{min-height:44px;padding:0 16px;border-radius:12px;display:inline-flex;align-items:center;justify-content:center;font-size:15px;font-weight:600;text-decoration:none}
+.btn-primary{background:#1F1F1F;color:#FFFFFF}.btn-primary:hover{color:#FFFFFF}
+.btn-ghost{border:1.5px solid #9A9A9A;color:#1F1F1F}
+.tab{flex:1;min-height:56px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:4px;font-size:12px;color:#5E5E5E;text-decoration:none}
+.tab-on{color:#1F1F1F;font-weight:700}
+.dot{width:22px;height:22px;border-radius:11px;flex:none;display:flex;align-items:center;justify-content:center}
+.dot-done{background:#1F1F1F;color:#FFFFFF}
+.dot-todo{border:1.5px dashed #9A9A9A}
+</style>
+</helmet>
+<div style="width: 390px; height: 1040px; box-sizing: border-box; display: flex; flex-direction: column; background: #F4F4F4; font-family: 'IBM Plex Sans KR', sans-serif; color: #1F1F1F">
+  <div style="flex: 1; padding: 20px 16px; display: flex; flex-direction: column; gap: 16px">
+    <div style="display: flex; align-items: center; justify-content: space-between">
+      <a href="Calendar.dc.html" style="display: inline-flex; align-items: center; gap: 6px; min-height: 44px; font-size: 22px; font-weight: 700; text-decoration: none">10월 14일 (수)
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 9l6 6 6-6"></path></svg>
+      </a>
+      <span class="muted">눌러서 달력</span>
+    </div>
+
+    <section class="card" style="display: flex; flex-direction: column; gap: 14px" aria-label="이번 주 KPI">
+      <div style="display: flex; justify-content: space-between; align-items: baseline">
+        <h2 style="margin: 0; font-size: 16px; font-weight: 700">이번 주</h2>
+        <span class="muted">10/12 – 10/18</span>
+      </div>
+      <div style="display: flex; flex-direction: column; gap: 6px">
+        <div style="display: flex; justify-content: space-between; font-size: 15px"><span>운동</span><strong>3 / 4회</strong></div>
+        <div style="display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 4px">
+          <div style="height: 8px; border-radius: 4px; background: #1F1F1F"></div>
+          <div style="height: 8px; border-radius: 4px; background: #1F1F1F"></div>
+          <div style="height: 8px; border-radius: 4px; background: #1F1F1F"></div>
+          <div style="height: 8px; border-radius: 4px; background: #D9D9D9"></div>
+        </div>
+      </div>
+      <div style="display: flex; flex-direction: column; gap: 6px">
+        <div style="display: flex; justify-content: space-between; font-size: 15px"><span>식사 사진</span><strong>5끼 / 최소 14끼</strong></div>
+        <div style="height: 8px; border-radius: 4px; background: #D9D9D9; overflow: hidden"><div style="width: 36%; height: 8px; background: #1F1F1F"></div></div>
+      </div>
+      <div style="display: flex; justify-content: space-between; align-items: center; font-size: 15px; padding-top: 10px; border-top: 1px solid #E3E3E3">
+        <span>인바디 <span class="muted">(10/3 기준)</span></span>
+        <span style="display: flex; gap: 6px">
+          <span style="padding: 2px 8px; border-radius: 8px; border: 1.5px solid #1F1F1F; font-size: 13px">골격근량 좋음</span>
+          <span style="padding: 2px 8px; border-radius: 8px; border: 1.5px solid #1F1F1F; font-size: 13px">체지방률 좋음</span>
+        </span>
+      </div>
+    </section>
+
+    <section style="display: flex; flex-direction: column; gap: 10px" aria-label="오늘 루틴">
+      <div style="display: flex; justify-content: space-between; align-items: baseline">
+        <h2 style="margin: 0; font-size: 16px; font-weight: 700">오늘 루틴</h2>
+        <span class="muted">남은 항목 {{remaining}}개</span>
+      </div>
+
+      <div class="card" style="display: flex; gap: 12px; align-items: center">
+        <span class="dot dot-done"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12l5 5 9-10"></path></svg></span>
+        <div style="flex: 1">
+          <div style="font-size: 15px; font-weight: 600">아침 컨디션</div>
+          <div class="muted">피로도 2 · 수면 질 4</div>
+        </div>
+        <button type="button" class="chip chip-off">수정</button>
+      </div>
+
+      <div class="card" style="display: flex; gap: 12px; align-items: flex-start">
+        <span class="dot dot-todo" aria-hidden="true"></span>
+        <div style="flex: 1; display: flex; flex-direction: column; gap: 8px">
+          <div style="display: flex; justify-content: space-between; align-items: center">
+            <span style="font-size: 15px; font-weight: 600">식사 사진</span>
+            <a href="Meals.dc.html" class="muted">식단으로</a>
+          </div>
+          <div style="display: flex; gap: 8px">
+            <span class="chip chip-on">아침</span>
+            <span class="chip chip-on">점심</span>
+            <span class="chip chip-off">저녁</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="card" style="display: flex; gap: 12px; align-items: flex-start">
+        <sc-if value="{{vitaminsDone}}" hint-placeholder-val="{{ false }}"><span class="dot dot-done"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12l5 5 9-10"></path></svg></span></sc-if>
+        <sc-if value="{{vitaminsTodo}}" hint-placeholder-val="{{ true }}"><span class="dot dot-todo" aria-hidden="true"></span></sc-if>
+        <div style="flex: 1; display: flex; flex-direction: column; gap: 8px">
+          <div style="display: flex; justify-content: space-between">
+            <span style="font-size: 15px; font-weight: 600">영양제 <span class="muted">매일</span></span>
+            <span class="muted">{{vitaminCount}} / 5</span>
+          </div>
+          <div style="display: flex; flex-wrap: wrap; gap: 8px">
+            <sc-for list="{{vitamins}}" as="item" hint-placeholder-count="5">
+              <sc-if value="{{item.on}}" hint-placeholder-val="{{ false }}"><button type="button" class="chip chip-on" onClick="{{item.toggle}}" aria-pressed="true">{{item.name}}</button></sc-if>
+              <sc-if value="{{item.off}}" hint-placeholder-val="{{ true }}"><button type="button" class="chip chip-off" onClick="{{item.toggle}}" aria-pressed="false">{{item.name}}</button></sc-if>
+            </sc-for>
+          </div>
+        </div>
+      </div>
+
+      <div class="card" style="display: flex; gap: 12px; align-items: flex-start">
+        <span class="dot dot-todo" aria-hidden="true"></span>
+        <div style="flex: 1; display: flex; flex-direction: column; gap: 8px">
+          <div style="display: flex; justify-content: space-between">
+            <span style="font-size: 15px; font-weight: 600">보충제·쉐이크 <span class="muted">운동하는 날</span></span>
+            <span class="muted">{{suppCount}} / 4</span>
+          </div>
+          <div style="display: flex; flex-wrap: wrap; gap: 8px">
+            <sc-for list="{{supplements}}" as="item" hint-placeholder-count="4">
+              <sc-if value="{{item.on}}" hint-placeholder-val="{{ false }}"><button type="button" class="chip chip-on" onClick="{{item.toggle}}" aria-pressed="true">{{item.name}}</button></sc-if>
+              <sc-if value="{{item.off}}" hint-placeholder-val="{{ true }}"><button type="button" class="chip chip-off" onClick="{{item.toggle}}" aria-pressed="false">{{item.name}}</button></sc-if>
+            </sc-for>
+          </div>
+          <span class="muted">운동을 기록한 날만 루틴에 반영돼요</span>
+        </div>
+      </div>
+
+      <div class="card" style="display: flex; gap: 12px; align-items: flex-start">
+        <span class="dot dot-todo" aria-hidden="true"></span>
+        <div style="flex: 1; display: flex; flex-direction: column; gap: 10px">
+          <span style="font-size: 15px; font-weight: 600">운동</span>
+          <div style="display: flex; gap: 8px">
+            <a href="Workout.dc.html" class="btn btn-ghost" style="flex: 1">지난 기록 보기</a>
+            <a href="WorkoutLog.dc.html" class="btn btn-primary" style="flex: 1">운동 기록하기</a>
+          </div>
+        </div>
+      </div>
+
+      <div class="card" style="display: flex; gap: 12px; align-items: center; opacity: 0.6">
+        <span class="dot dot-todo" aria-hidden="true"></span>
+        <div style="flex: 1">
+          <div style="font-size: 15px; font-weight: 600">운동 후 컨디션</div>
+          <div class="muted">운동을 기록하면 체크할 수 있어요</div>
+        </div>
+      </div>
+    </section>
+  </div>
+
+  <nav aria-label="주요 메뉴" style="display: flex; border-top: 1.5px solid #CFCFCF; background: #FFFFFF; padding-bottom: 16px">
+    <a href="Main.dc.html" class="tab tab-on" aria-current="page"><span style="width: 22px; height: 22px; border-radius: 6px; background: #1F1F1F"></span>오늘</a>
+    <a href="Workout.dc.html" class="tab"><span style="width: 22px; height: 22px; border-radius: 6px; border: 1.5px solid #9A9A9A; box-sizing: border-box"></span>운동</a>
+    <a href="Meals.dc.html" class="tab"><span style="width: 22px; height: 22px; border-radius: 6px; border: 1.5px solid #9A9A9A; box-sizing: border-box"></span>식단</a>
+    <a href="Body.dc.html" class="tab"><span style="width: 22px; height: 22px; border-radius: 6px; border: 1.5px solid #9A9A9A; box-sizing: border-box"></span>몸 변화</a>
+    <a href="Settings.dc.html" class="tab"><span style="width: 22px; height: 22px; border-radius: 6px; border: 1.5px solid #9A9A9A; box-sizing: border-box"></span>설정</a>
+  </nav>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":390,"height":1040}}'>
+class Component extends DCLogic {
+  constructor(props) {
+    super(props);
+    this.state = {
+      vit: { '비타민C': true, '루테인': true, '오메가3': true, '칼슘 외 4종': false, '프로바이오틱스': false },
+      sup: { '크레아틴': false, 'EAA': false, '글루타민': false, 'WPI 쉐이크': false }
+    };
+  }
+  toList(key) {
+    const map = this.state[key];
+    return Object.keys(map).map((name) => ({
+      name: name,
+      on: map[name],
+      off: !map[name],
+      toggle: () => this.setState({ [key]: Object.assign({}, map, { [name]: !map[name] }) })
+    }));
+  }
+  renderVals() {
+    const vitamins = this.toList('vit');
+    const supplements = this.toList('sup');
+    const vitaminCount = vitamins.filter((v) => v.on).length;
+    const suppCount = supplements.filter((v) => v.on).length;
+    const vitaminsDone = vitaminCount === vitamins.length;
+    // 남은 항목: 식사, 영양제(미완료 시), 보충제, 운동, 운동 후 컨디션
+    const remaining = 1 + (vitaminsDone ? 0 : 1) + (suppCount === supplements.length ? 0 : 1) + 2;
+    return {
+      vitamins: vitamins,
+      supplements: supplements,
+      vitaminCount: vitaminCount,
+      suppCount: suppCount,
+      vitaminsDone: vitaminsDone,
+      vitaminsTodo: !vitaminsDone,
+      remaining: remaining
+    };
+  }
+}
+</script>
+</body>
+</html>

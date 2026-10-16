@@ -1,0 +1,138 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<title>달력</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+KR:wght@400;500;600;700&amp;display=swap">
+<style>
+body{margin:0}
+a{color:#1F1F1F}a:hover{color:#000000}
+.card{border:1.5px solid #CFCFCF;border-radius:14px;padding:16px;background:#FFFFFF}
+.muted{font-size:13px;color:#5E5E5E}
+.cell{height:44px;border-radius:10px;font:inherit;font-size:15px;display:flex;align-items:center;justify-content:center;box-sizing:border-box;padding:0}
+.c-done{background:#1F1F1F;color:#FFFFFF;border:none;cursor:pointer}
+.c-missed{background:#FFFFFF;color:#1F1F1F;border:2px dashed #1F1F1F;cursor:pointer;font-weight:700}
+.c-none{background:#FFFFFF;color:#5E5E5E;border:1.5px solid #E3E3E3}
+.c-today{background:#FFFFFF;color:#1F1F1F;border:3px solid #1F1F1F;cursor:pointer;font-weight:700}
+.c-future{background:transparent;color:#ABABAB;border:none}
+.c-sel{outline:3px solid #8A8A8A;outline-offset:2px}
+.tab{flex:1;min-height:56px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:4px;font-size:12px;color:#5E5E5E;text-decoration:none}
+.tab-on{color:#1F1F1F;font-weight:700}
+.btn{min-height:44px;padding:0 16px;border-radius:12px;display:inline-flex;align-items:center;justify-content:center;font-size:15px;font-weight:600;text-decoration:none}
+.btn-primary{background:#1F1F1F;color:#FFFFFF}.btn-primary:hover{color:#FFFFFF}
+</style>
+</helmet>
+<div style="width: 390px; height: 844px; box-sizing: border-box; display: flex; flex-direction: column; background: #F4F4F4; font-family: 'IBM Plex Sans KR', sans-serif; color: #1F1F1F">
+  <div style="flex: 1; padding: 20px 16px; display: flex; flex-direction: column; gap: 16px">
+    <div style="display: flex; align-items: center; justify-content: space-between">
+      <a href="Main.dc.html" style="display: inline-flex; align-items: center; gap: 4px; min-height: 44px; font-size: 15px; text-decoration: none">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 6l-6 6 6 6"></path></svg>오늘
+      </a>
+      <div style="display: flex; align-items: center; gap: 4px">
+        <button type="button" aria-label="이전 달" style="width: 44px; height: 44px; border: none; background: transparent; font: inherit; cursor: pointer"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 6l-6 6 6 6"></path></svg></button>
+        <h1 style="margin: 0; font-size: 20px; font-weight: 700">2026년 10월</h1>
+        <button type="button" aria-label="다음 달" style="width: 44px; height: 44px; border: none; background: transparent; font: inherit; cursor: pointer"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 6l6 6-6 6"></path></svg></button>
+      </div>
+    </div>
+
+    <div class="card" style="display: flex; flex-direction: column; gap: 8px; padding: 12px">
+      <div style="display: grid; grid-template-columns: repeat(7, minmax(0, 1fr)); gap: 6px; text-align: center" class="muted">
+        <span>월</span><span>화</span><span>수</span><span>목</span><span>금</span><span>토</span><span>일</span>
+      </div>
+      <div style="display: grid; grid-template-columns: repeat(7, minmax(0, 1fr)); gap: 6px">
+        <sc-for list="{{cells}}" as="c" hint-placeholder-count="35">
+          <sc-if value="{{c.isBlank}}" hint-placeholder-val="{{ false }}"><span class="cell"></span></sc-if>
+          <sc-if value="{{c.isNone}}" hint-placeholder-val="{{ false }}"><span class="cell c-none">{{c.day}}</span></sc-if>
+          <sc-if value="{{c.isDone}}" hint-placeholder-val="{{ true }}"><button type="button" class="{{c.cls}}" onClick="{{c.pick}}" aria-label="{{c.aria}}">{{c.day}}</button></sc-if>
+          <sc-if value="{{c.isMissed}}" hint-placeholder-val="{{ false }}"><button type="button" class="{{c.cls}}" onClick="{{c.pick}}" aria-label="{{c.aria}}">{{c.day}}</button></sc-if>
+          <sc-if value="{{c.isToday}}" hint-placeholder-val="{{ false }}"><button type="button" class="{{c.cls}}" onClick="{{c.pick}}" aria-label="{{c.aria}}">{{c.day}}</button></sc-if>
+          <sc-if value="{{c.isFuture}}" hint-placeholder-val="{{ false }}"><span class="cell c-future">{{c.day}}</span></sc-if>
+        </sc-for>
+      </div>
+    </div>
+
+    <div style="display: flex; flex-wrap: wrap; gap: 12px; align-items: center" class="muted">
+      <span style="display: inline-flex; align-items: center; gap: 6px"><span style="width: 16px; height: 16px; border-radius: 4px; background: #1F1F1F"></span>완료</span>
+      <span style="display: inline-flex; align-items: center; gap: 6px"><span style="width: 16px; height: 16px; border-radius: 4px; border: 2px dashed #1F1F1F; box-sizing: border-box"></span>놓친 항목 있음</span>
+      <span style="display: inline-flex; align-items: center; gap: 6px"><span style="width: 16px; height: 16px; border-radius: 4px; border: 1.5px solid #CFCFCF; box-sizing: border-box; background: #FFFFFF"></span>기록 없음</span>
+      <span style="display: inline-flex; align-items: center; gap: 6px"><span style="width: 16px; height: 16px; border-radius: 4px; border: 3px solid #1F1F1F; box-sizing: border-box"></span>오늘</span>
+    </div>
+
+    <section class="card" style="display: flex; flex-direction: column; gap: 10px" aria-live="polite">
+      <div style="display: flex; justify-content: space-between; align-items: baseline">
+        <h2 style="margin: 0; font-size: 16px; font-weight: 700">{{sel.title}}</h2>
+        <span class="muted">{{sel.status}}</span>
+      </div>
+      <sc-if value="{{sel.hasMissing}}" hint-placeholder-val="{{ true }}">
+        <div style="display: flex; flex-direction: column; gap: 6px">
+          <sc-for list="{{sel.missing}}" as="m" hint-placeholder-count="2">
+            <div style="display: flex; align-items: center; gap: 8px; font-size: 15px"><span style="width: 8px; height: 8px; border-radius: 4px; border: 2px solid #1F1F1F"></span>{{m}}</div>
+          </sc-for>
+        </div>
+        <a href="Main.dc.html" class="btn btn-primary">빠진 기록 채우기</a>
+      </sc-if>
+      <sc-if value="{{sel.noMissing}}" hint-placeholder-val="{{ false }}">
+        <a href="Main.dc.html" style="font-size: 15px">이날 기록 보기</a>
+      </sc-if>
+    </section>
+  </div>
+
+  <nav aria-label="주요 메뉴" style="display: flex; border-top: 1.5px solid #CFCFCF; background: #FFFFFF; padding-bottom: 16px">
+    <a href="Main.dc.html" class="tab tab-on" aria-current="page"><span style="width: 22px; height: 22px; border-radius: 6px; background: #1F1F1F"></span>오늘</a>
+    <a href="Workout.dc.html" class="tab"><span style="width: 22px; height: 22px; border-radius: 6px; border: 1.5px solid #9A9A9A; box-sizing: border-box"></span>운동</a>
+    <a href="Meals.dc.html" class="tab"><span style="width: 22px; height: 22px; border-radius: 6px; border: 1.5px solid #9A9A9A; box-sizing: border-box"></span>식단</a>
+    <a href="Body.dc.html" class="tab"><span style="width: 22px; height: 22px; border-radius: 6px; border: 1.5px solid #9A9A9A; box-sizing: border-box"></span>몸 변화</a>
+    <a href="Settings.dc.html" class="tab"><span style="width: 22px; height: 22px; border-radius: 6px; border: 1.5px solid #9A9A9A; box-sizing: border-box"></span>설정</a>
+  </nav>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":390,"height":844}}'>
+class Component extends DCLogic {
+  constructor(props) {
+    super(props);
+    this.state = { picked: 12 };
+  }
+  renderVals() {
+    const today = 14;
+    const missed = { 5: ['저녁 사진', '보충제·쉐이크'], 9: ['아침 컨디션'], 12: ['저녁 사진', '운동 후 컨디션'] };
+    const dow = ['목', '금', '토', '일', '월', '화', '수'];
+    const cells = [];
+    for (let i = 0; i < 3; i++) cells.push({ isBlank: true });
+    for (let d = 1; d <= 31; d++) {
+      let kind = 'done';
+      if (d <= 2) kind = 'none';
+      else if (d === today) kind = 'today';
+      else if (d > today) kind = 'future';
+      else if (missed[d]) kind = 'missed';
+      const selected = this.state.picked === d;
+      cells.push({
+        day: d,
+        isNone: kind === 'none',
+        isDone: kind === 'done',
+        isMissed: kind === 'missed',
+        isToday: kind === 'today',
+        isFuture: kind === 'future',
+        cls: 'cell c-' + kind + (selected ? ' c-sel' : ''),
+        aria: '10월 ' + d + '일 ' + ({ done: '완료', missed: '놓친 항목 있음', today: '오늘' }[kind] || ''),
+        pick: () => this.setState({ picked: d })
+      });
+    }
+    const p = this.state.picked;
+    const title = '10월 ' + p + '일 (' + dow[(p - 1) % 7] + ')';
+    let sel;
+    if (p === today) sel = { title: title, status: '진행 중', missing: ['식사 사진 (저녁)', '영양제 2개', '보충제·쉐이크', '운동'] };
+    else if (missed[p]) sel = { title: title, status: '놓친 항목 ' + missed[p].length + '개', missing: missed[p] };
+    else sel = { title: title, status: '루틴 완료', missing: [] };
+    sel.hasMissing = sel.missing.length > 0;
+    sel.noMissing = !sel.hasMissing;
+    return { cells: cells, sel: sel };
+  }
+}
+</script>
+</body>
+</html>

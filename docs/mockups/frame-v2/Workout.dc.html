@@ -1,0 +1,106 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<title>운동 홈</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+KR:wght@400;500;600;700&amp;display=swap">
+<style>
+body{margin:0}
+a{color:#1F1F1F}a:hover{color:#000000}
+.card{border:1.5px solid #CFCFCF;border-radius:14px;padding:16px;background:#FFFFFF}
+.muted{font-size:13px;color:#5E5E5E}
+.rcard{display:flex;flex-direction:column;gap:6px;border:1.5px solid #CFCFCF;border-radius:14px;padding:14px 16px;background:#FFFFFF;text-decoration:none;color:#1F1F1F}
+.rcard-next{border:2px solid #1F1F1F}
+.badge{display:inline-flex;align-items:center;min-height:22px;padding:0 8px;border-radius:11px;font-size:12px;font-weight:600;background:#1F1F1F;color:#FFFFFF}
+.btn{min-height:48px;padding:0 14px;border-radius:12px;display:flex;align-items:center;justify-content:center;font-size:15px;font-weight:600;text-decoration:none}
+.btn-ghost{background:#FFFFFF;color:#1F1F1F;border:1.5px solid #9A9A9A}
+.row{min-height:56px;display:flex;align-items:center;gap:12px;border-bottom:1px solid #E3E3E3;text-decoration:none;color:#1F1F1F}
+.tab{flex:1;min-height:56px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:4px;font-size:12px;color:#5E5E5E;text-decoration:none}
+.tab-on{color:#1F1F1F;font-weight:700}
+h2{margin:0;font-size:16px;font-weight:700}
+</style>
+</helmet>
+<div style="width: 390px; height: 1100px; box-sizing: border-box; display: flex; flex-direction: column; background: #F4F4F4; font-family: 'IBM Plex Sans KR', sans-serif; color: #1F1F1F">
+  <div style="flex: 1; padding: 20px 16px; display: flex; flex-direction: column; gap: 14px">
+    <div style="display: flex; align-items: baseline; justify-content: space-between">
+      <h1 style="margin: 0; font-size: 22px; font-weight: 700">운동</h1>
+      <span class="muted">10월 14일 (수)</span>
+    </div>
+
+    <div style="display: flex; justify-content: space-between; align-items: baseline">
+      <h2>내 루틴으로 시작</h2>
+      <a href="Routine.dc.html" class="muted">루틴 편집</a>
+    </div>
+
+    <a href="WorkoutLog.dc.html" class="rcard rcard-next">
+      <div style="display: flex; justify-content: space-between; align-items: center">
+        <strong style="font-size: 17px">등·이두</strong>
+        <span class="badge">다음 차례</span>
+      </div>
+      <span style="font-size: 14px">랫풀다운 · 바벨 로우 · 시티드 케이블 로우 · 바벨 컬</span>
+      <span class="muted">4종목 · 마지막 10/9</span>
+    </a>
+    <a href="WorkoutLog.dc.html" class="rcard">
+      <strong style="font-size: 17px">가슴·삼두</strong>
+      <span style="font-size: 14px">벤치프레스 · 인클라인 덤벨프레스 · 케이블 크로스오버 · 트라이셉스 푸시다운</span>
+      <span class="muted">4종목 · 마지막 10/12</span>
+    </a>
+    <a href="WorkoutLog.dc.html" class="rcard">
+      <strong style="font-size: 17px">하체·어깨</strong>
+      <span style="font-size: 14px">스쿼트 · 레그프레스 · 오버헤드 프레스 · 사이드 레터럴 레이즈</span>
+      <span class="muted">4종목 · 마지막 10/13</span>
+    </a>
+
+    <div style="display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 8px">
+      <a href="WorkoutLog.dc.html" class="btn btn-ghost">지난 운동 그대로</a>
+      <a href="ExercisePicker.dc.html" class="btn btn-ghost">운동 골라서 시작</a>
+    </div>
+
+    <section class="card" style="display: flex; flex-direction: column; padding: 8px 16px" aria-label="최근 운동">
+      <h2 style="padding: 8px 0">최근 운동</h2>
+      <div class="row">
+        <span style="width: 44px" class="muted">10/13</span>
+        <div style="flex: 1; display: flex; flex-direction: column"><span style="font-size: 15px; font-weight: 600">하체·어깨</span><span class="muted">4종목 · 16세트 · 볼륨 6,820kg</span></div>
+      </div>
+      <div class="row">
+        <span style="width: 44px" class="muted">10/12</span>
+        <div style="flex: 1; display: flex; flex-direction: column"><span style="font-size: 15px; font-weight: 600">가슴·삼두</span><span class="muted">4종목 · 15세트 · 볼륨 5,940kg</span></div>
+      </div>
+      <div class="row" style="border-bottom: none">
+        <span style="width: 44px" class="muted">10/11</span>
+        <div style="flex: 1; display: flex; flex-direction: column"><span style="font-size: 15px; font-weight: 600">러닝</span><span class="muted">7.0km · 41분 20초</span></div>
+      </div>
+    </section>
+
+    <a href="ExerciseDetail.dc.html" class="card" style="display: flex; align-items: center; justify-content: space-between; text-decoration: none; min-height: 24px">
+      <div style="display: flex; flex-direction: column; gap: 2px">
+        <span style="font-size: 15px; font-weight: 600">운동별 기록 보기</span>
+        <span class="muted">운동마다 최근 5회 흐름</span>
+      </div>
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 6l6 6-6 6"></path></svg>
+    </a>
+  </div>
+
+  <nav aria-label="주요 메뉴" style="display: flex; border-top: 1.5px solid #CFCFCF; background: #FFFFFF; padding-bottom: 16px">
+    <a href="Main.dc.html" class="tab"><span style="width: 22px; height: 22px; border-radius: 6px; border: 1.5px solid #9A9A9A; box-sizing: border-box"></span>오늘</a>
+    <a href="Workout.dc.html" class="tab tab-on" aria-current="page"><span style="width: 22px; height: 22px; border-radius: 6px; background: #1F1F1F"></span>운동</a>
+    <a href="Meals.dc.html" class="tab"><span style="width: 22px; height: 22px; border-radius: 6px; border: 1.5px solid #9A9A9A; box-sizing: border-box"></span>식단</a>
+    <a href="Body.dc.html" class="tab"><span style="width: 22px; height: 22px; border-radius: 6px; border: 1.5px solid #9A9A9A; box-sizing: border-box"></span>몸 변화</a>
+    <a href="Settings.dc.html" class="tab"><span style="width: 22px; height: 22px; border-radius: 6px; border: 1.5px solid #9A9A9A; box-sizing: border-box"></span>설정</a>
+  </nav>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":390,"height":1100}}'>
+class Component extends DCLogic {
+  renderVals() {
+    return {};
+  }
+}
+</script>
+</body>
+</html>

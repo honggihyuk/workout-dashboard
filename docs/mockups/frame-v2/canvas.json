@@ -1,0 +1,25 @@
+{
+  "v": 3,
+  "createdOnFiles": {"v": 1, "at": "2026-10-14T16:55:00Z"},
+  "title": "운동 대시보드 프레임 목업",
+  "launch": {"view": "canvas"},
+  "pages": [],
+  "boards": {
+    "Workout.dc.html": {"x": 0, "y": 0, "w": 390, "h": 1100, "title": "운동 홈 (v2)", "is_interactive": true, "radius": 24},
+    "ExercisePicker.dc.html": {"x": 470, "y": 0, "w": 390, "h": 1300, "title": "운동 고르기 (v2 신규)", "is_interactive": true, "radius": 24},
+    "WorkoutLog.dc.html": {"x": 940, "y": 0, "w": 390, "h": 2100, "title": "운동 기록 (v2)", "is_interactive": true, "radius": 24},
+    "ExerciseDetail.dc.html": {"x": 1410, "y": 0, "w": 390, "h": 960, "title": "운동별 기록 (v2)", "is_interactive": true, "radius": 24},
+    "Routine.dc.html": {"x": 1880, "y": 0, "w": 390, "h": 1040, "title": "루틴 편집 (v2 신규)", "is_interactive": true, "radius": 24},
+    "Main.dc.html": {"x": 0, "y": 2520, "w": 390, "h": 1040, "title": "오늘", "is_interactive": true, "radius": 24},
+    "Calendar.dc.html": {"x": 470, "y": 2520, "w": 390, "h": 844, "title": "달력", "is_interactive": true, "radius": 24},
+    "Meals.dc.html": {"x": 940, "y": 2520, "w": 390, "h": 1240, "title": "식단", "is_interactive": true, "radius": 24},
+    "Body.dc.html": {"x": 1410, "y": 2520, "w": 390, "h": 1040, "title": "몸 변화", "is_interactive": true, "radius": 24},
+    "Settings.dc.html": {"x": 1880, "y": 2520, "w": 390, "h": 1240, "title": "설정", "is_interactive": true, "radius": 24}
+  },
+  "order": ["Workout.dc.html", "ExercisePicker.dc.html", "WorkoutLog.dc.html", "ExerciseDetail.dc.html", "Routine.dc.html", "Main.dc.html", "Calendar.dc.html", "Meals.dc.html", "Body.dc.html", "Settings.dc.html"],
+  "notes": {
+    "rowWorkout": {"x": 0, "y": -300, "text": "v2 · 운동 흐름 (다시 설계)", "kind": "title1", "maxW": 2270},
+    "rowOther": {"x": 0, "y": 2220, "text": "그 외 화면", "kind": "title1", "maxW": 2270}
+  },
+  "designSystems": []
+}

@@ -1,0 +1,134 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<title>식단</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+KR:wght@400;500;600;700&amp;display=swap">
+<style>
+body{margin:0}
+a{color:#1F1F1F}a:hover{color:#000000}
+.card{border:1.5px solid #CFCFCF;border-radius:14px;padding:16px;background:#FFFFFF}
+.muted{font-size:13px;color:#5E5E5E}
+.photo{width:88px;height:88px;flex:none;border-radius:10px;background:#D9D9D9;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:4px;font-size:12px;color:#4A4A4A}
+.badge{display:inline-flex;align-items:center;min-height:24px;padding:0 8px;border-radius:12px;font-size:12px;font-weight:600}
+.b-solid{background:#1F1F1F;color:#FFFFFF}
+.b-line{border:1.5px solid #1F1F1F;color:#1F1F1F}
+.b-dash{border:1.5px dashed #1F1F1F;color:#1F1F1F}
+.field{width:100%;box-sizing:border-box;min-height:44px;border:1.5px solid #9A9A9A;border-radius:10px;padding:0 12px;font:inherit;font-size:16px;background:#FFFFFF;color:#1F1F1F}
+.btn{min-height:44px;padding:0 14px;border-radius:12px;display:flex;align-items:center;justify-content:center;gap:6px;font:inherit;font-size:15px;font-weight:600;text-decoration:none;cursor:pointer}
+.btn-primary{background:#1F1F1F;color:#FFFFFF;border:none}
+.btn-ghost{background:#FFFFFF;color:#1F1F1F;border:1.5px solid #9A9A9A}
+.tab{flex:1;min-height:56px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:4px;font-size:12px;color:#5E5E5E;text-decoration:none}
+.tab-on{color:#1F1F1F;font-weight:700}
+</style>
+</helmet>
+<div style="width: 390px; height: 1240px; box-sizing: border-box; display: flex; flex-direction: column; background: #F4F4F4; font-family: 'IBM Plex Sans KR', sans-serif; color: #1F1F1F">
+  <div style="flex: 1; padding: 20px 16px; display: flex; flex-direction: column; gap: 14px">
+    <div style="display: flex; align-items: baseline; justify-content: space-between">
+      <h1 style="margin: 0; font-size: 22px; font-weight: 700">식단</h1>
+      <span class="muted">10월 14일 (수)</span>
+    </div>
+    <div class="card" style="display: flex; justify-content: space-between; align-items: center; padding: 12px 16px">
+      <span class="muted">오늘 합계 (확인한 끼니)</span>
+      <strong style="font-size: 15px">{{total}}</strong>
+    </div>
+
+    <section class="card" style="display: flex; flex-direction: column; gap: 10px" aria-label="아침">
+      <div style="display: flex; justify-content: space-between; align-items: center">
+        <h2 style="margin: 0; font-size: 17px; font-weight: 700">아침 <span class="muted" style="font-weight: 400">08:10</span></h2>
+        <span class="badge b-solid">확인함</span>
+      </div>
+      <div style="display: flex; gap: 12px">
+        <div class="photo"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 8h3l2-3h6l2 3h3v11H4z"></path><circle cx="12" cy="13" r="3.5"></circle></svg>사진</div>
+        <div style="display: flex; flex-direction: column; gap: 4px">
+          <span style="font-size: 15px; font-weight: 600">현미밥, 닭가슴살, 김치</span>
+          <span style="font-size: 14px">520 kcal · 단백질 38g</span>
+          <a href="Meals.dc.html" class="muted">수정 · 메모</a>
+        </div>
+      </div>
+    </section>
+
+    <section class="card" style="display: flex; flex-direction: column; gap: 10px; border-width: 2px; border-color: #1F1F1F" aria-label="점심">
+      <div style="display: flex; justify-content: space-between; align-items: center">
+        <h2 style="margin: 0; font-size: 17px; font-weight: 700">점심 <span class="muted" style="font-weight: 400">12:40</span></h2>
+        <sc-if value="{{lunchPending}}" hint-placeholder-val="{{ true }}"><span class="badge b-line">AI 추정 · 확인 필요</span></sc-if>
+        <sc-if value="{{lunchDone}}" hint-placeholder-val="{{ false }}"><span class="badge b-solid">확인함</span></sc-if>
+      </div>
+      <div style="display: flex; gap: 12px">
+        <div class="photo"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 8h3l2-3h6l2 3h3v11H4z"></path><circle cx="12" cy="13" r="3.5"></circle></svg>사진</div>
+        <div style="display: flex; flex-direction: column; gap: 4px">
+          <span style="font-size: 15px; font-weight: 600">제육볶음 정식</span>
+          <span style="font-size: 14px">약 780 kcal · 단백질 약 35g</span>
+          <span class="muted">AI가 사진으로 추정한 값이에요</span>
+        </div>
+      </div>
+      <sc-if value="{{lunchPending}}" hint-placeholder-val="{{ true }}">
+        <div style="display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 8px">
+          <button type="button" class="btn btn-ghost">수정</button>
+          <button type="button" class="btn btn-primary" onClick="{{confirmLunch}}">확인함</button>
+        </div>
+      </sc-if>
+    </section>
+
+    <section class="card" style="display: flex; flex-direction: column; gap: 10px" aria-label="저녁">
+      <div style="display: flex; justify-content: space-between; align-items: center">
+        <h2 style="margin: 0; font-size: 17px; font-weight: 700">저녁 <span class="muted" style="font-weight: 400">19:05</span></h2>
+        <span class="badge b-dash">분석 실패</span>
+      </div>
+      <div style="display: flex; gap: 12px; align-items: center">
+        <div class="photo"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 8h3l2-3h6l2 3h3v11H4z"></path><circle cx="12" cy="13" r="3.5"></circle></svg>사진</div>
+        <div style="display: flex; flex-direction: column; gap: 4px">
+          <span style="font-size: 15px; font-weight: 600">사진은 저장됐어요</span>
+          <span class="muted">알면 직접 적어 주세요. 비워 두면 새벽에 다시 분석해요.</span>
+        </div>
+      </div>
+      <div style="display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 8px">
+        <label style="display: flex; flex-direction: column; gap: 4px"><span class="muted">양 (g)</span><input class="field" inputmode="numeric" placeholder="선택"></label>
+        <label style="display: flex; flex-direction: column; gap: 4px"><span class="muted">칼로리 (kcal)</span><input class="field" inputmode="numeric" placeholder="선택"></label>
+      </div>
+      <label style="display: flex; flex-direction: column; gap: 4px"><span class="muted">메뉴</span><input class="field" placeholder="예: 연어 포케"></label>
+      <button type="button" class="btn btn-primary">저장</button>
+    </section>
+
+    <section class="card" style="display: flex; flex-direction: column; gap: 10px; border-style: dashed; border-color: #9A9A9A" aria-label="간식">
+      <div style="display: flex; justify-content: space-between; align-items: center">
+        <h2 style="margin: 0; font-size: 17px; font-weight: 700">간식</h2>
+        <span class="muted">미기록 · 선택</span>
+      </div>
+      <button type="button" class="btn btn-ghost" style="min-height: 56px"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 8h3l2-3h6l2 3h3v11H4z"></path><circle cx="12" cy="13" r="3.5"></circle></svg>사진 올리기</button>
+    </section>
+  </div>
+
+  <nav aria-label="주요 메뉴" style="display: flex; border-top: 1.5px solid #CFCFCF; background: #FFFFFF; padding-bottom: 16px">
+    <a href="Main.dc.html" class="tab"><span style="width: 22px; height: 22px; border-radius: 6px; border: 1.5px solid #9A9A9A; box-sizing: border-box"></span>오늘</a>
+    <a href="Workout.dc.html" class="tab"><span style="width: 22px; height: 22px; border-radius: 6px; border: 1.5px solid #9A9A9A; box-sizing: border-box"></span>운동</a>
+    <a href="Meals.dc.html" class="tab tab-on" aria-current="page"><span style="width: 22px; height: 22px; border-radius: 6px; background: #1F1F1F"></span>식단</a>
+    <a href="Body.dc.html" class="tab"><span style="width: 22px; height: 22px; border-radius: 6px; border: 1.5px solid #9A9A9A; box-sizing: border-box"></span>몸 변화</a>
+    <a href="Settings.dc.html" class="tab"><span style="width: 22px; height: 22px; border-radius: 6px; border: 1.5px solid #9A9A9A; box-sizing: border-box"></span>설정</a>
+  </nav>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":390,"height":1240}}'>
+class Component extends DCLogic {
+  constructor(props) {
+    super(props);
+    this.state = { lunchConfirmed: false };
+  }
+  renderVals() {
+    const done = this.state.lunchConfirmed;
+    return {
+      lunchPending: !done,
+      lunchDone: done,
+      total: done ? '1,300 kcal · 단백질 73g' : '520 kcal · 단백질 38g',
+      confirmLunch: () => this.setState({ lunchConfirmed: true })
+    };
+  }
+}
+</script>
+</body>
+</html>

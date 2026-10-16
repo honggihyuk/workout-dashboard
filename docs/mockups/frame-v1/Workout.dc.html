@@ -1,0 +1,174 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<title>운동 (운동 전)</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+KR:wght@400;500;600;700&amp;display=swap">
+<style>
+body{margin:0}
+a{color:#1F1F1F}a:hover{color:#000000}
+.card{border:1.5px solid #CFCFCF;border-radius:14px;padding:16px;background:#FFFFFF}
+.muted{font-size:13px;color:#5E5E5E}
+.chip{min-height:40px;padding:0 14px;border-radius:20px;font:inherit;font-size:14px;cursor:pointer;white-space:nowrap}
+.chip-off{border:1.5px solid #9A9A9A;background:#FFFFFF;color:#1F1F1F}
+.chip-on{border:1.5px solid #1F1F1F;background:#1F1F1F;color:#FFFFFF}
+.btn{min-height:48px;padding:0 16px;border-radius:12px;display:flex;align-items:center;justify-content:center;font-size:16px;font-weight:600;text-decoration:none}
+.btn-primary{background:#1F1F1F;color:#FFFFFF}.btn-primary:hover{color:#FFFFFF}
+.tab{flex:1;min-height:56px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:4px;font-size:12px;color:#5E5E5E;text-decoration:none}
+.tab-on{color:#1F1F1F;font-weight:700}
+</style>
+</helmet>
+<div style="width: 390px; height: 960px; box-sizing: border-box; display: flex; flex-direction: column; background: #F4F4F4; font-family: 'IBM Plex Sans KR', sans-serif; color: #1F1F1F">
+  <div style="flex: 1; padding: 20px 16px; display: flex; flex-direction: column; gap: 16px">
+    <div style="display: flex; align-items: baseline; justify-content: space-between">
+      <h1 style="margin: 0; font-size: 22px; font-weight: 700">운동</h1>
+      <span class="muted">운동 전 · 지난 기록 비교</span>
+    </div>
+
+    <div style="display: flex; gap: 8px; flex-wrap: wrap" role="group" aria-label="운동 선택">
+      <sc-for list="{{exercises}}" as="ex" hint-placeholder-count="4">
+        <sc-if value="{{ex.on}}" hint-placeholder-val="{{ false }}"><button type="button" class="chip chip-on" aria-pressed="true" onClick="{{ex.pick}}">{{ex.name}}</button></sc-if>
+        <sc-if value="{{ex.off}}" hint-placeholder-val="{{ true }}"><button type="button" class="chip chip-off" aria-pressed="false" onClick="{{ex.pick}}">{{ex.name}}</button></sc-if>
+      </sc-for>
+    </div>
+
+    <section class="card" style="display: flex; flex-direction: column; gap: 6px; border-width: 2px; border-color: #1F1F1F" aria-label="지난번 기록">
+      <span class="muted">지난번 · {{cur.lastDate}}</span>
+      <div style="font-size: 20px; font-weight: 700">{{cur.lastTop}}</div>
+      <div class="muted">{{cur.lastDetail}}</div>
+    </section>
+
+    <section class="card" style="display: flex; flex-direction: column; gap: 12px" aria-label="최근 5회 흐름">
+      <div style="display: flex; justify-content: space-between; align-items: baseline">
+        <h2 style="margin: 0; font-size: 16px; font-weight: 700">최근 5회 흐름</h2>
+        <span class="muted">{{cur.metric}}</span>
+      </div>
+      <div style="height: 120px; display: grid; grid-template-columns: repeat(5, minmax(0, 1fr)); gap: 10px; align-items: end; border-bottom: 1.5px solid #CFCFCF" role="img" aria-label="{{cur.chartLabel}}">
+        <sc-for list="{{cur.bars}}" as="b" hint-placeholder-count="5">
+          <div style="display: flex; flex-direction: column; align-items: center; gap: 4px">
+            <span style="font-size: 12px; color: #5E5E5E">{{b.value}}</span>
+            <div style="width: 100%; border-radius: 6px 6px 0 0; background: {{b.fill}}; height: {{b.h}}"></div>
+          </div>
+        </sc-for>
+      </div>
+      <div style="display: grid; grid-template-columns: repeat(5, minmax(0, 1fr)); gap: 10px; text-align: center" class="muted">
+        <sc-for list="{{cur.bars}}" as="b" hint-placeholder-count="5"><span>{{b.date}}</span></sc-for>
+      </div>
+      <div style="display: flex; flex-direction: column; border-top: 1px solid #E3E3E3">
+        <sc-for list="{{cur.rows}}" as="r" hint-placeholder-count="5">
+          <div style="display: flex; justify-content: space-between; gap: 12px; padding: 10px 0; border-bottom: 1px solid #E3E3E3; font-size: 14px">
+            <span style="width: 44px; color: #5E5E5E">{{r.date}}</span>
+            <span style="flex: 1">{{r.sets}}</span>
+          </div>
+        </sc-for>
+      </div>
+    </section>
+
+    <a href="WorkoutLog.dc.html" class="btn btn-primary">오늘 운동 기록하기</a>
+  </div>
+
+  <nav aria-label="주요 메뉴" style="display: flex; border-top: 1.5px solid #CFCFCF; background: #FFFFFF; padding-bottom: 16px">
+    <a href="Main.dc.html" class="tab"><span style="width: 22px; height: 22px; border-radius: 6px; border: 1.5px solid #9A9A9A; box-sizing: border-box"></span>오늘</a>
+    <a href="Workout.dc.html" class="tab tab-on" aria-current="page"><span style="width: 22px; height: 22px; border-radius: 6px; background: #1F1F1F"></span>운동</a>
+    <a href="Meals.dc.html" class="tab"><span style="width: 22px; height: 22px; border-radius: 6px; border: 1.5px solid #9A9A9A; box-sizing: border-box"></span>식단</a>
+    <a href="Body.dc.html" class="tab"><span style="width: 22px; height: 22px; border-radius: 6px; border: 1.5px solid #9A9A9A; box-sizing: border-box"></span>몸 변화</a>
+    <a href="Settings.dc.html" class="tab"><span style="width: 22px; height: 22px; border-radius: 6px; border: 1.5px solid #9A9A9A; box-sizing: border-box"></span>설정</a>
+  </nav>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":390,"height":960}}'>
+class Component extends DCLogic {
+  constructor(props) {
+    super(props);
+    this.state = { picked: '벤치프레스' };
+  }
+  renderVals() {
+    const data = {
+      '벤치프레스': {
+        metric: '볼륨 (kg)',
+        sessions: [
+          { date: '9/28', sets: '60×10 · 70×8 · 72.5×6 · 72.5×6', vol: 2050 },
+          { date: '10/2', sets: '60×10 · 70×8 · 72.5×7 · 72.5×6', vol: 2122 },
+          { date: '10/5', sets: '60×10 · 72.5×8 · 75×5 · 75×5', vol: 2330 },
+          { date: '10/8', sets: '60×10 · 72.5×8 · 75×6 · 75×5', vol: 2405 },
+          { date: '10/12', sets: '60×10 · 72.5×8 · 75×6 · 75×6', vol: 2480 }
+        ],
+        lastTop: '75kg × 6회',
+        lastDetail: '4세트 · 볼륨 2,480kg'
+      },
+      '스쿼트': {
+        metric: '볼륨 (kg)',
+        sessions: [
+          { date: '9/29', sets: '60×10 · 80×8 · 90×6 · 90×6', vol: 2300 },
+          { date: '10/3', sets: '60×10 · 80×8 · 90×6 · 90×5', vol: 2210 },
+          { date: '10/6', sets: '60×10 · 80×8 · 90×6 · 90×6', vol: 2300 },
+          { date: '10/9', sets: '60×10 · 85×8 · 92.5×5 · 92.5×5', vol: 2205 },
+          { date: '10/13', sets: '60×10 · 85×8 · 92.5×6 · 92.5×5', vol: 2298 }
+        ],
+        lastTop: '92.5kg × 6회',
+        lastDetail: '4세트 · 볼륨 2,298kg'
+      },
+      '랫풀다운': {
+        metric: '볼륨 (kg)',
+        sessions: [
+          { date: '9/28', sets: '45×12 · 50×10 · 55×8 · 55×8', vol: 1920 },
+          { date: '10/2', sets: '45×12 · 50×10 · 55×8 · 55×8', vol: 1920 },
+          { date: '10/5', sets: '45×12 · 50×10 · 55×9 · 55×8', vol: 1975 },
+          { date: '10/8', sets: '50×12 · 55×10 · 57.5×8 · 57.5×8', vol: 2070 },
+          { date: '10/12', sets: '50×12 · 55×10 · 57.5×8 · 57.5×8', vol: 2070 }
+        ],
+        lastTop: '57.5kg × 8회',
+        lastDetail: '4세트 · 볼륨 2,070kg'
+      },
+      '러닝': {
+        metric: '거리 (km)',
+        sessions: [
+          { date: '9/20', sets: '5.0km · 29:10 · 5\'50"/km', vol: 5.0 },
+          { date: '9/27', sets: '5.0km · 28:40 · 5\'44"/km', vol: 5.0 },
+          { date: '10/4', sets: '6.0km · 35:30 · 5\'55"/km', vol: 6.0 },
+          { date: '10/7', sets: '5.0km · 28:05 · 5\'37"/km', vol: 5.0 },
+          { date: '10/11', sets: '7.0km · 41:20 · 5\'54"/km', vol: 7.0 }
+        ],
+        lastTop: '7.0km · 41분 20초',
+        lastDetail: '페이스 5\'54"/km'
+      }
+    };
+    const names = Object.keys(data);
+    const exercises = names.map((n) => ({
+      name: n,
+      on: n === this.state.picked,
+      off: n !== this.state.picked,
+      pick: () => this.setState({ picked: n })
+    }));
+    const d = data[this.state.picked];
+    const max = Math.max.apply(null, d.sessions.map((s) => s.vol));
+    const last = d.sessions.length - 1;
+    const bars = d.sessions.map((s, i) => ({
+      date: s.date,
+      value: s.vol >= 100 ? s.vol.toLocaleString('ko-KR') : String(s.vol),
+      h: Math.round((s.vol / max) * 84) + 'px',
+      fill: i === last ? '#1F1F1F' : '#BDBDBD'
+    }));
+    const rows = d.sessions.slice().reverse().map((s) => ({ date: s.date, sets: s.sets }));
+    return {
+      exercises: exercises,
+      cur: {
+        metric: d.metric,
+        bars: bars,
+        rows: rows,
+        lastDate: d.sessions[last].date,
+        lastTop: d.lastTop,
+        lastDetail: d.lastDetail,
+        chartLabel: this.state.picked + ' 최근 5회 ' + d.metric + ' 막대 그래프'
+      }
+    };
+  }
+}
+</script>
+</body>
+</html>

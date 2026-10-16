@@ -1,0 +1,160 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<title>몸 변화</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+KR:wght@400;500;600;700&amp;display=swap">
+<style>
+body{margin:0}
+a{color:#1F1F1F}a:hover{color:#000000}
+.card{border:1.5px solid #CFCFCF;border-radius:14px;padding:16px;background:#FFFFFF}
+.muted{font-size:13px;color:#5E5E5E}
+.seg{flex:1;min-height:40px;border-radius:10px;font:inherit;font-size:14px;cursor:pointer}
+.seg-on{background:#1F1F1F;color:#FFFFFF;border:none;font-weight:700}
+.seg-off{background:transparent;color:#1F1F1F;border:none}
+.badge{display:inline-flex;align-items:center;min-height:22px;padding:0 8px;border-radius:11px;font-size:12px;font-weight:600}
+.b-good{background:#1F1F1F;color:#FFFFFF}
+.b-warn{border:1.5px dashed #1F1F1F;color:#1F1F1F}
+.btn{min-height:44px;padding:0 14px;border-radius:12px;display:flex;align-items:center;justify-content:center;font:inherit;font-size:15px;font-weight:600;cursor:pointer}
+.btn-ghost{background:#FFFFFF;color:#1F1F1F;border:1.5px solid #9A9A9A}
+.tab{flex:1;min-height:56px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:4px;font-size:12px;color:#5E5E5E;text-decoration:none}
+.tab-on{color:#1F1F1F;font-weight:700}
+</style>
+</helmet>
+<div style="width: 390px; height: 1040px; box-sizing: border-box; display: flex; flex-direction: column; background: #F4F4F4; font-family: 'IBM Plex Sans KR', sans-serif; color: #1F1F1F">
+  <div style="flex: 1; padding: 20px 16px; display: flex; flex-direction: column; gap: 14px">
+    <h1 style="margin: 0; font-size: 22px; font-weight: 700">몸 변화</h1>
+    <div style="display: flex; gap: 4px; padding: 4px; border-radius: 12px; background: #E3E3E3" role="group" aria-label="기간">
+      <sc-for list="{{periods}}" as="p" hint-placeholder-count="3">
+        <sc-if value="{{p.on}}" hint-placeholder-val="{{ false }}"><button type="button" class="seg seg-on" aria-pressed="true" onClick="{{p.pick}}">{{p.label}}</button></sc-if>
+        <sc-if value="{{p.off}}" hint-placeholder-val="{{ true }}"><button type="button" class="seg seg-off" aria-pressed="false" onClick="{{p.pick}}">{{p.label}}</button></sc-if>
+      </sc-for>
+    </div>
+
+    <section class="card" style="display: flex; flex-direction: column; gap: 12px" aria-label="인바디">
+      <div style="display: flex; justify-content: space-between; align-items: baseline">
+        <h2 style="margin: 0; font-size: 17px; font-weight: 700">인바디</h2>
+        <span class="muted">10/3 측정 · 지난달 대비</span>
+      </div>
+      <div style="display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 10px">
+        <div style="display: flex; flex-direction: column; gap: 4px; padding: 12px; border-radius: 10px; background: #F4F4F4">
+          <span class="muted">골격근량</span>
+          <strong style="font-size: 20px">34.2kg</strong>
+          <span style="display: flex; gap: 6px; align-items: center; font-size: 13px">+0.3kg <span class="badge b-good">좋음</span></span>
+        </div>
+        <div style="display: flex; flex-direction: column; gap: 4px; padding: 12px; border-radius: 10px; background: #F4F4F4">
+          <span class="muted">체지방률</span>
+          <strong style="font-size: 20px">15.8%</strong>
+          <span style="display: flex; gap: 6px; align-items: center; font-size: 13px">−0.6%p <span class="badge b-good">좋음</span></span>
+        </div>
+        <div style="display: flex; flex-direction: column; gap: 4px; padding: 12px; border-radius: 10px; background: #F4F4F4">
+          <span class="muted">체지방량</span>
+          <strong style="font-size: 20px">12.1kg</strong>
+          <span style="font-size: 13px">−0.4kg</span>
+        </div>
+        <div style="display: flex; flex-direction: column; gap: 4px; padding: 12px; border-radius: 10px; background: #F4F4F4">
+          <span class="muted">기초대사량</span>
+          <strong style="font-size: 20px">1,712kcal</strong>
+          <span style="font-size: 13px">+8kcal</span>
+        </div>
+      </div>
+      <button type="button" class="btn btn-ghost">인바디 입력</button>
+    </section>
+
+    <section class="card" style="display: flex; flex-direction: column; gap: 10px" aria-label="체중">
+      <div style="display: flex; justify-content: space-between; align-items: baseline">
+        <h2 style="margin: 0; font-size: 17px; font-weight: 700">체중</h2>
+        <span class="muted">최근 76.4kg · {{periodLabel}}</span>
+      </div>
+      <svg width="326" height="120" viewBox="0 0 326 120" role="img" aria-label="{{weightLabel}}">
+        <line x1="0" y1="20" x2="326" y2="20" stroke="#E3E3E3" stroke-width="1"></line>
+        <line x1="0" y1="60" x2="326" y2="60" stroke="#E3E3E3" stroke-width="1"></line>
+        <line x1="0" y1="100" x2="326" y2="100" stroke="#E3E3E3" stroke-width="1"></line>
+        <polyline points="{{weightPoints}}" fill="none" stroke="#1F1F1F" stroke-width="2.5" stroke-linejoin="round" stroke-linecap="round"></polyline>
+      </svg>
+      <div style="display: flex; justify-content: space-between" class="muted"><span>{{startLabel}}</span><span>오늘</span></div>
+      <button type="button" class="btn btn-ghost">체중 입력</button>
+    </section>
+
+    <section class="card" style="display: flex; flex-direction: column; gap: 10px" aria-label="컨디션 추이">
+      <div style="display: flex; justify-content: space-between; align-items: baseline">
+        <h2 style="margin: 0; font-size: 17px; font-weight: 700">컨디션 추이</h2>
+        <span class="muted">아침 기준 · 1~5점</span>
+      </div>
+      <svg width="326" height="100" viewBox="0 0 326 100" role="img" aria-label="피로도와 수면 질 추이 선 그래프">
+        <line x1="0" y1="10" x2="326" y2="10" stroke="#E3E3E3" stroke-width="1"></line>
+        <line x1="0" y1="90" x2="326" y2="90" stroke="#E3E3E3" stroke-width="1"></line>
+        <polyline points="{{fatiguePoints}}" fill="none" stroke="#1F1F1F" stroke-width="2.5" stroke-linejoin="round"></polyline>
+        <polyline points="{{sleepPoints}}" fill="none" stroke="#8A8A8A" stroke-width="2.5" stroke-dasharray="6 5" stroke-linejoin="round"></polyline>
+      </svg>
+      <div style="display: flex; gap: 16px" class="muted">
+        <span style="display: inline-flex; align-items: center; gap: 6px"><span style="width: 18px; height: 3px; background: #1F1F1F"></span>피로도</span>
+        <span style="display: inline-flex; align-items: center; gap: 6px"><span style="width: 18px; height: 0; border-top: 3px dashed #8A8A8A"></span>수면 질</span>
+      </div>
+    </section>
+  </div>
+
+  <nav aria-label="주요 메뉴" style="display: flex; border-top: 1.5px solid #CFCFCF; background: #FFFFFF; padding-bottom: 16px">
+    <a href="Main.dc.html" class="tab"><span style="width: 22px; height: 22px; border-radius: 6px; border: 1.5px solid #9A9A9A; box-sizing: border-box"></span>오늘</a>
+    <a href="Workout.dc.html" class="tab"><span style="width: 22px; height: 22px; border-radius: 6px; border: 1.5px solid #9A9A9A; box-sizing: border-box"></span>운동</a>
+    <a href="Meals.dc.html" class="tab"><span style="width: 22px; height: 22px; border-radius: 6px; border: 1.5px solid #9A9A9A; box-sizing: border-box"></span>식단</a>
+    <a href="Body.dc.html" class="tab tab-on" aria-current="page"><span style="width: 22px; height: 22px; border-radius: 6px; background: #1F1F1F"></span>몸 변화</a>
+    <a href="Settings.dc.html" class="tab"><span style="width: 22px; height: 22px; border-radius: 6px; border: 1.5px solid #9A9A9A; box-sizing: border-box"></span>설정</a>
+  </nav>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":390,"height":1040}}'>
+class Component extends DCLogic {
+  constructor(props) {
+    super(props);
+    this.state = { period: 1 };
+  }
+  series(n, seed, base, amp, drift) {
+    const out = [];
+    for (let i = 0; i < n; i++) {
+      const wave = Math.sin((i + seed) * 1.3) * amp + Math.sin((i + seed) * 0.37) * amp * 0.6;
+      out.push(base + wave + drift * (i / Math.max(1, n - 1)));
+    }
+    return out;
+  }
+  toPoints(vals, w, h, lo, hi, pad) {
+    const n = vals.length;
+    return vals.map((v, i) => {
+      const x = n === 1 ? 0 : (i / (n - 1)) * w;
+      const y = pad + (1 - (v - lo) / (hi - lo)) * (h - pad * 2);
+      return x.toFixed(1) + ',' + y.toFixed(1);
+    }).join(' ');
+  }
+  renderVals() {
+    const months = this.state.period;
+    const n = months * 15;
+    const weights = this.series(n, months, 76.6, 0.35, -0.2 * months);
+    const fatigue = this.series(n, months + 2, 2.6, 0.9, 0);
+    const sleep = this.series(n, months + 5, 3.5, 0.8, 0);
+    const clamp = (vs) => vs.map((v) => Math.max(1, Math.min(5, v)));
+    const periods = [1, 3, 6].map((m) => ({
+      label: m + '개월',
+      on: m === months,
+      off: m !== months,
+      pick: () => this.setState({ period: m })
+    }));
+    const start = { 1: '9/14', 3: '7/14', 6: '4/14' }[months];
+    return {
+      periods: periods,
+      periodLabel: '최근 ' + months + '개월',
+      startLabel: start,
+      weightPoints: this.toPoints(weights, 326, 120, 75, 78, 14),
+      weightLabel: '최근 ' + months + '개월 체중 추이 선 그래프',
+      fatiguePoints: this.toPoints(clamp(fatigue), 326, 100, 1, 5, 10),
+      sleepPoints: this.toPoints(clamp(sleep), 326, 100, 1, 5, 10)
+    };
+  }
+}
+</script>
+</body>
+</html>

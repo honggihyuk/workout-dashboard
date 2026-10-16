@@ -1,0 +1,102 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<title>테마 A 화이트 미니멀</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+KR:wght@400;500;600;700&amp;display=swap">
+<style>
+body{margin:0}
+a{color:#2F5BEA}a:hover{color:#1E44C4}
+</style>
+</helmet>
+<div style="width: 390px; height: 1040px; box-sizing: border-box; display: flex; flex-direction: column; background: #F6F6F4; font-family: 'IBM Plex Sans KR', sans-serif; color: #141414">
+  <div style="flex: 1; padding: 24px 16px 16px; display: flex; flex-direction: column; gap: 16px">
+    <div style="display: flex; align-items: center; justify-content: space-between">
+      <button type="button" style="display: inline-flex; align-items: center; gap: 6px; min-height: 44px; padding: 0; border: none; background: transparent; font: inherit; font-size: 24px; font-weight: 700; color: #141414; cursor: pointer">10월 14일 (수)
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 9l6 6 6-6"></path></svg>
+      </button>
+      <span style="font-size: 13px; color: #5C5C5C">남은 항목 4개</span>
+    </div>
+
+    <section style="display: flex; flex-direction: column; gap: 14px; padding: 18px; border-radius: 16px; background: #FFFFFF; box-shadow: 0 1px 2px rgba(20,20,20,0.06)" aria-label="이번 주">
+      <div style="display: flex; justify-content: space-between; align-items: baseline">
+        <h2 style="margin: 0; font-size: 16px; font-weight: 700">이번 주</h2>
+        <span style="font-size: 13px; color: #5C5C5C">10/12 – 10/18</span>
+      </div>
+      <div style="display: flex; flex-direction: column; gap: 6px">
+        <div style="display: flex; justify-content: space-between; font-size: 15px"><span>운동</span><strong>3 / 4회</strong></div>
+        <div style="display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 4px">
+          <div style="height: 8px; border-radius: 4px; background: #2F5BEA"></div>
+          <div style="height: 8px; border-radius: 4px; background: #2F5BEA"></div>
+          <div style="height: 8px; border-radius: 4px; background: #2F5BEA"></div>
+          <div style="height: 8px; border-radius: 4px; background: #E4E4E0"></div>
+        </div>
+      </div>
+      <div style="display: flex; flex-direction: column; gap: 6px">
+        <div style="display: flex; justify-content: space-between; font-size: 15px"><span>식사 사진</span><strong>5끼 / 최소 14끼</strong></div>
+        <div style="height: 8px; border-radius: 4px; background: #E4E4E0; overflow: hidden"><div style="width: 36%; height: 8px; border-radius: 4px; background: #2F5BEA"></div></div>
+      </div>
+      <div style="display: flex; justify-content: space-between; align-items: center; padding-top: 12px; border-top: 1px solid #E4E4E0; font-size: 15px">
+        <span>인바디 <span style="font-size: 13px; color: #5C5C5C">10/3</span></span>
+        <span style="display: flex; gap: 6px">
+          <span style="padding: 3px 10px; border-radius: 10px; background: #E8EEFD; color: #2F5BEA; font-size: 13px; font-weight: 600">골격근량 좋음</span>
+          <span style="padding: 3px 10px; border-radius: 10px; background: #FDEEE6; color: #B23A0A; font-size: 13px; font-weight: 600">체지방률 주의</span>
+        </span>
+      </div>
+    </section>
+
+    <h2 style="margin: 4px 0 -6px; font-size: 16px; font-weight: 700">오늘 루틴</h2>
+
+    <div style="display: flex; gap: 12px; align-items: center; padding: 16px; border-radius: 16px; background: #FFFFFF; box-shadow: 0 1px 2px rgba(20,20,20,0.06)">
+      <span style="width: 26px; height: 26px; border-radius: 13px; background: #2F5BEA; color: #FFFFFF; display: flex; align-items: center; justify-content: center; flex: none"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12l5 5 9-10"></path></svg></span>
+      <div style="flex: 1"><div style="font-size: 15px; font-weight: 600">아침 컨디션</div><div style="font-size: 13px; color: #5C5C5C">피로도 2 · 수면 질 4</div></div>
+    </div>
+
+    <div style="display: flex; flex-direction: column; gap: 10px; padding: 16px; border-radius: 16px; background: #FFFFFF; box-shadow: 0 1px 2px rgba(20,20,20,0.06)">
+      <div style="display: flex; gap: 12px; align-items: center">
+        <span style="width: 26px; height: 26px; border-radius: 13px; border: 2px solid #C9C9C4; box-sizing: border-box; flex: none" aria-hidden="true"></span>
+        <span style="flex: 1; font-size: 15px; font-weight: 600">영양제 <span style="font-size: 13px; font-weight: 400; color: #5C5C5C">매일 · 3 / 5</span></span>
+      </div>
+      <div style="display: flex; flex-wrap: wrap; gap: 8px; padding-left: 38px">
+        <button type="button" aria-pressed="true" style="min-height: 36px; padding: 0 12px; border-radius: 18px; border: none; background: #2F5BEA; color: #FFFFFF; font: inherit; font-size: 14px">비타민C</button>
+        <button type="button" aria-pressed="true" style="min-height: 36px; padding: 0 12px; border-radius: 18px; border: none; background: #2F5BEA; color: #FFFFFF; font: inherit; font-size: 14px">루테인</button>
+        <button type="button" aria-pressed="true" style="min-height: 36px; padding: 0 12px; border-radius: 18px; border: none; background: #2F5BEA; color: #FFFFFF; font: inherit; font-size: 14px">오메가3</button>
+        <button type="button" aria-pressed="false" style="min-height: 36px; padding: 0 12px; border-radius: 18px; border: 1.5px solid #C9C9C4; background: #FFFFFF; color: #141414; font: inherit; font-size: 14px">칼슘 외 4종</button>
+        <button type="button" aria-pressed="false" style="min-height: 36px; padding: 0 12px; border-radius: 18px; border: 1.5px solid #C9C9C4; background: #FFFFFF; color: #141414; font: inherit; font-size: 14px">프로바이오틱스</button>
+      </div>
+      <button type="button" style="margin-left: 38px; min-height: 40px; border-radius: 12px; border: 1.5px solid #2F5BEA; background: #FFFFFF; color: #2F5BEA; font: inherit; font-size: 14px; font-weight: 600">매일 영양제 모두 먹음</button>
+    </div>
+
+    <div style="display: flex; flex-direction: column; gap: 12px; padding: 16px; border-radius: 16px; background: #FFFFFF; box-shadow: 0 1px 2px rgba(20,20,20,0.06)">
+      <div style="display: flex; gap: 12px; align-items: center">
+        <span style="width: 26px; height: 26px; border-radius: 13px; border: 2px solid #C9C9C4; box-sizing: border-box; flex: none" aria-hidden="true"></span>
+        <span style="flex: 1; font-size: 15px; font-weight: 600">운동</span>
+        <span style="font-size: 13px; color: #5C5C5C">다음 차례: 등·이두</span>
+      </div>
+      <button type="button" style="min-height: 50px; border-radius: 14px; border: none; background: #2F5BEA; color: #FFFFFF; font: inherit; font-size: 16px; font-weight: 700">운동 기록하기</button>
+    </div>
+  </div>
+
+  <nav aria-label="주요 메뉴" style="display: flex; border-top: 1px solid #E4E4E0; background: #FFFFFF; padding-bottom: 18px">
+    <a href="#" aria-current="page" style="flex: 1; min-height: 58px; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 4px; font-size: 12px; font-weight: 700; color: #2F5BEA; text-decoration: none"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="4" y="4" width="16" height="16" rx="4"></rect><path d="M8.5 12l2.5 2.5 4.5-5"></path></svg>오늘</a>
+    <a href="#" style="flex: 1; min-height: 58px; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 4px; font-size: 12px; color: #5C5C5C; text-decoration: none"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6.5 7v10M17.5 7v10M3.5 9.5v5M20.5 9.5v5M6.5 12h11"></path></svg>운동</a>
+    <a href="#" style="flex: 1; min-height: 58px; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 4px; font-size: 12px; color: #5C5C5C; text-decoration: none"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 12h16a8 7 0 0 1-16 0z"></path><path d="M9.5 4.5c-1 1.2 1 2 0 3.5M14.5 4.5c-1 1.2 1 2 0 3.5"></path></svg>식단</a>
+    <a href="#" style="flex: 1; min-height: 58px; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 4px; font-size: 12px; color: #5C5C5C; text-decoration: none"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 19h16"></path><path d="M5.5 15l4-4.5 3.5 3 5.5-6.5"></path></svg>몸 변화</a>
+    <a href="#" style="flex: 1; min-height: 58px; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 4px; font-size: 12px; color: #5C5C5C; text-decoration: none"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 7h9M17 7h3M4 17h3M11 17h9"></path><circle cx="15" cy="7" r="2"></circle><circle cx="9" cy="17" r="2"></circle></svg>설정</a>
+  </nav>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":390,"height":1040}}'>
+class Component extends DCLogic {
+  renderVals() {
+    return {};
+  }
+}
+</script>
+</body>
+</html>

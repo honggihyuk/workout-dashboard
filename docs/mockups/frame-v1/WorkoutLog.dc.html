@@ -1,0 +1,139 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<title>운동 기록 (운동 후)</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+KR:wght@400;500;600;700&amp;display=swap">
+<style>
+body{margin:0}
+a{color:#1F1F1F}a:hover{color:#000000}
+.card{border:1.5px solid #CFCFCF;border-radius:14px;padding:16px;background:#FFFFFF}
+.muted{font-size:13px;color:#5E5E5E}
+.field{width:100%;box-sizing:border-box;min-height:44px;border:1.5px solid #9A9A9A;border-radius:10px;padding:0 12px;font:inherit;font-size:16px;background:#FFFFFF;color:#1F1F1F}
+.btn{min-height:48px;padding:0 16px;border-radius:12px;display:flex;align-items:center;justify-content:center;font:inherit;font-size:16px;font-weight:600;text-decoration:none;cursor:pointer}
+.btn-primary{background:#1F1F1F;color:#FFFFFF;border:none}.btn-primary:hover{color:#FFFFFF}
+.btn-ghost{background:#FFFFFF;color:#1F1F1F;border:1.5px dashed #9A9A9A}
+.score{flex:1;min-height:44px;border-radius:10px;font:inherit;font-size:16px;cursor:pointer}
+.score-off{border:1.5px solid #9A9A9A;background:#FFFFFF;color:#1F1F1F}
+.score-on{border:1.5px solid #1F1F1F;background:#1F1F1F;color:#FFFFFF;font-weight:700}
+.tab{flex:1;min-height:56px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:4px;font-size:12px;color:#5E5E5E;text-decoration:none}
+.tab-on{color:#1F1F1F;font-weight:700}
+</style>
+</helmet>
+<div style="width: 390px; height: 1240px; box-sizing: border-box; display: flex; flex-direction: column; background: #F4F4F4; font-family: 'IBM Plex Sans KR', sans-serif; color: #1F1F1F">
+  <div style="flex: 1; padding: 20px 16px; display: flex; flex-direction: column; gap: 16px">
+    <div style="display: flex; align-items: center; justify-content: space-between">
+      <a href="Workout.dc.html" style="display: inline-flex; align-items: center; gap: 4px; min-height: 44px; font-size: 15px; text-decoration: none">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 6l-6 6 6 6"></path></svg>지난 기록
+      </a>
+      <span class="muted">10월 14일 (수)</span>
+    </div>
+    <h1 style="margin: 0; font-size: 22px; font-weight: 700">운동 기록</h1>
+
+    <sc-for list="{{blocks}}" as="blk" hint-placeholder-count="2">
+      <section class="card" style="display: flex; flex-direction: column; gap: 10px" aria-label="{{blk.name}}">
+        <div style="display: flex; justify-content: space-between; align-items: baseline">
+          <h2 style="margin: 0; font-size: 17px; font-weight: 700">{{blk.name}}</h2>
+          <span class="muted">지난번 값으로 채움</span>
+        </div>
+        <div style="display: grid; grid-template-columns: 44px minmax(0, 1fr) minmax(0, 1fr); gap: 8px" class="muted">
+          <span>세트</span><span>무게 (kg)</span><span>횟수</span>
+        </div>
+        <sc-for list="{{blk.sets}}" as="s" hint-placeholder-count="4">
+          <div style="display: grid; grid-template-columns: 44px minmax(0, 1fr) minmax(0, 1fr); gap: 8px; align-items: center">
+            <span style="font-size: 15px; font-weight: 600; text-align: center">{{s.no}}</span>
+            <label style="display: block"><span style="position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0)">{{s.no}}세트 무게</span><input class="field" inputmode="decimal" defaultValue="{{s.kg}}"></label>
+            <label style="display: block"><span style="position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0)">{{s.no}}세트 횟수</span><input class="field" inputmode="numeric" defaultValue="{{s.reps}}"></label>
+          </div>
+        </sc-for>
+        <button type="button" class="btn btn-ghost" style="min-height: 44px; font-size: 15px" onClick="{{blk.addSet}}">+ 세트 추가</button>
+      </section>
+    </sc-for>
+
+    <div style="display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 8px">
+      <button type="button" class="btn btn-ghost">+ 운동 추가</button>
+      <button type="button" class="btn btn-ghost">+ 러닝 추가</button>
+    </div>
+
+    <section class="card" style="display: flex; flex-direction: column; gap: 8px">
+      <label for="memo" style="font-size: 15px; font-weight: 600">메모</label>
+      <textarea id="memo" class="field" style="min-height: 72px; padding: 10px 12px; resize: none" placeholder="예: 어깨가 조금 뻐근했음"></textarea>
+    </section>
+
+    <section class="card" style="display: flex; flex-direction: column; gap: 14px" aria-label="운동 후 컨디션">
+      <h2 style="margin: 0; font-size: 17px; font-weight: 700">운동 후 컨디션</h2>
+      <sc-for list="{{scales}}" as="sc" hint-placeholder-count="2">
+        <div style="display: flex; flex-direction: column; gap: 8px" role="group" aria-label="{{sc.label}}">
+          <div style="display: flex; justify-content: space-between"><span style="font-size: 15px">{{sc.label}}</span><span class="muted">{{sc.hint}}</span></div>
+          <div style="display: flex; gap: 6px">
+            <sc-for list="{{sc.options}}" as="o" hint-placeholder-count="5">
+              <sc-if value="{{o.on}}" hint-placeholder-val="{{ false }}"><button type="button" class="score score-on" aria-pressed="true" onClick="{{o.pick}}">{{o.n}}</button></sc-if>
+              <sc-if value="{{o.off}}" hint-placeholder-val="{{ true }}"><button type="button" class="score score-off" aria-pressed="false" onClick="{{o.pick}}">{{o.n}}</button></sc-if>
+            </sc-for>
+          </div>
+        </div>
+      </sc-for>
+    </section>
+
+    <section class="card" style="display: flex; flex-direction: column; gap: 8px">
+      <div style="display: flex; justify-content: space-between; align-items: baseline">
+        <label for="weight" style="font-size: 15px; font-weight: 600">체중 (kg)</label>
+        <span class="muted">선택 · 이틀에 한 번</span>
+      </div>
+      <input id="weight" class="field" inputmode="decimal" placeholder="지난번 76.4">
+    </section>
+
+    <a href="Main.dc.html" class="btn btn-primary">저장</a>
+  </div>
+
+  <nav aria-label="주요 메뉴" style="display: flex; border-top: 1.5px solid #CFCFCF; background: #FFFFFF; padding-bottom: 16px">
+    <a href="Main.dc.html" class="tab"><span style="width: 22px; height: 22px; border-radius: 6px; border: 1.5px solid #9A9A9A; box-sizing: border-box"></span>오늘</a>
+    <a href="Workout.dc.html" class="tab tab-on" aria-current="page"><span style="width: 22px; height: 22px; border-radius: 6px; background: #1F1F1F"></span>운동</a>
+    <a href="Meals.dc.html" class="tab"><span style="width: 22px; height: 22px; border-radius: 6px; border: 1.5px solid #9A9A9A; box-sizing: border-box"></span>식단</a>
+    <a href="Body.dc.html" class="tab"><span style="width: 22px; height: 22px; border-radius: 6px; border: 1.5px solid #9A9A9A; box-sizing: border-box"></span>몸 변화</a>
+    <a href="Settings.dc.html" class="tab"><span style="width: 22px; height: 22px; border-radius: 6px; border: 1.5px solid #9A9A9A; box-sizing: border-box"></span>설정</a>
+  </nav>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":390,"height":1240}}'>
+class Component extends DCLogic {
+  constructor(props) {
+    super(props);
+    this.state = {
+      bench: [[60, 10], [72.5, 8], [75, 6], [75, 6]],
+      lat: [[50, 12], [55, 10], [57.5, 8]],
+      intensity: 4,
+      focus: 3
+    };
+  }
+  block(name, key) {
+    const sets = this.state[key];
+    return {
+      name: name,
+      sets: sets.map((s, i) => ({ no: i + 1, kg: String(s[0]), reps: String(s[1]) })),
+      addSet: () => this.setState({ [key]: sets.concat([sets[sets.length - 1]]) })
+    };
+  }
+  scale(label, key, hint) {
+    const cur = this.state[key];
+    return {
+      label: label,
+      hint: hint,
+      options: [1, 2, 3, 4, 5].map((n) => ({ n: n, on: n === cur, off: n !== cur, pick: () => this.setState({ [key]: n }) }))
+    };
+  }
+  renderVals() {
+    return {
+      blocks: [this.block('벤치프레스', 'bench'), this.block('랫풀다운', 'lat')],
+      scales: [this.scale('운동 강도 느낌', 'intensity', '1 가벼움 · 5 매우 힘듦'), this.scale('집중도', 'focus', '1 낮음 · 5 높음')]
+    };
+  }
+}
+</script>
+</body>
+</html>

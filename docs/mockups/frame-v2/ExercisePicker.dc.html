@@ -1,0 +1,162 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<title>운동 고르기</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+KR:wght@400;500;600;700&amp;display=swap">
+<style>
+body{margin:0}
+a{color:#1F1F1F}a:hover{color:#000000}
+.muted{font-size:13px;color:#5E5E5E}
+.field{width:100%;box-sizing:border-box;min-height:48px;border:1.5px solid #9A9A9A;border-radius:12px;padding:0 14px 0 40px;font:inherit;font-size:16px;background:#FFFFFF;color:#1F1F1F}
+.ptab{min-height:40px;padding:0 14px;border:none;border-bottom:3px solid transparent;background:transparent;font:inherit;font-size:15px;color:#5E5E5E;cursor:pointer;white-space:nowrap}
+.ptab-on{border-bottom-color:#1F1F1F;color:#1F1F1F;font-weight:700}
+.chip{min-height:36px;padding:0 12px;border-radius:18px;font:inherit;font-size:14px;cursor:pointer;white-space:nowrap}
+.chip-off{border:1.5px solid #9A9A9A;background:#FFFFFF;color:#1F1F1F}
+.chip-on{border:1.5px solid #1F1F1F;background:#1F1F1F;color:#FFFFFF}
+.item{width:100%;min-height:60px;display:flex;align-items:center;gap:12px;padding:8px 16px;border:none;border-bottom:1px solid #E3E3E3;background:#FFFFFF;font:inherit;text-align:left;cursor:pointer;color:#1F1F1F}
+.box{width:24px;height:24px;flex:none;border-radius:7px;display:flex;align-items:center;justify-content:center;box-sizing:border-box}
+.box-off{border:1.5px solid #9A9A9A}
+.box-on{background:#1F1F1F;color:#FFFFFF}
+.thumb{width:40px;height:40px;flex:none;border-radius:8px;background:#E3E3E3}
+.btn{min-height:52px;padding:0 16px;border-radius:12px;display:flex;align-items:center;justify-content:center;font:inherit;font-size:16px;font-weight:600;text-decoration:none;cursor:pointer}
+.btn-primary{background:#1F1F1F;color:#FFFFFF}.btn-primary:hover{color:#FFFFFF}
+.sec{margin:0;padding:14px 16px 6px;font-size:13px;font-weight:700;color:#5E5E5E}
+</style>
+</helmet>
+<div style="width: 390px; height: 1300px; box-sizing: border-box; display: flex; flex-direction: column; background: #F4F4F4; font-family: 'IBM Plex Sans KR', sans-serif; color: #1F1F1F">
+  <div style="padding: 20px 16px 8px; display: flex; flex-direction: column; gap: 12px; background: #FFFFFF">
+    <div style="display: flex; align-items: center; justify-content: space-between">
+      <a href="Workout.dc.html" style="display: inline-flex; align-items: center; gap: 4px; min-height: 44px; font-size: 15px; text-decoration: none">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 6l-6 6 6 6"></path></svg>취소
+      </a>
+      <h1 style="margin: 0; font-size: 18px; font-weight: 700">운동 고르기</h1>
+      <span style="width: 52px"></span>
+    </div>
+    <label style="position: relative; display: block">
+      <span style="position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0)">운동 검색</span>
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#5E5E5E" stroke-width="2.2" stroke-linecap="round" aria-hidden="true" style="position: absolute; left: 14px; top: 15px"><circle cx="11" cy="11" r="6.5"></circle><path d="M16 16l4 4"></path></svg>
+      <input class="field" placeholder="운동 이름 검색 (예: 로우, 프레스)" value="{{q}}" onChange="{{onQuery}}">
+    </label>
+    <div style="display: flex; gap: 2px; overflow-x: auto; border-bottom: 1px solid #E3E3E3; margin: 0 -16px; padding: 0 8px" role="group" aria-label="부위">
+      <sc-for list="{{parts}}" as="p" hint-placeholder-count="8">
+        <sc-if value="{{p.on}}" hint-placeholder-val="{{ false }}"><button type="button" class="ptab ptab-on" aria-pressed="true" onClick="{{p.pick}}">{{p.label}}</button></sc-if>
+        <sc-if value="{{p.off}}" hint-placeholder-val="{{ true }}"><button type="button" class="ptab" aria-pressed="false" onClick="{{p.pick}}">{{p.label}}</button></sc-if>
+      </sc-for>
+    </div>
+    <div style="display: flex; gap: 6px; overflow-x: auto" role="group" aria-label="기구">
+      <sc-for list="{{equips}}" as="e" hint-placeholder-count="5">
+        <sc-if value="{{e.on}}" hint-placeholder-val="{{ false }}"><button type="button" class="chip chip-on" aria-pressed="true" onClick="{{e.pick}}">{{e.label}}</button></sc-if>
+        <sc-if value="{{e.off}}" hint-placeholder-val="{{ true }}"><button type="button" class="chip chip-off" aria-pressed="false" onClick="{{e.pick}}">{{e.label}}</button></sc-if>
+      </sc-for>
+    </div>
+  </div>
+
+  <div style="flex: 1; display: flex; flex-direction: column">
+    <sc-if value="{{showRecent}}" hint-placeholder-val="{{ true }}">
+      <h2 class="sec">최근 한 운동</h2>
+      <sc-for list="{{recent}}" as="x" hint-placeholder-count="5">
+        <button type="button" class="item" aria-pressed="{{x.pressed}}" onClick="{{x.toggle}}">
+          <sc-if value="{{x.on}}" hint-placeholder-val="{{ false }}"><span class="box box-on"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12l5 5 9-10"></path></svg></span></sc-if>
+          <sc-if value="{{x.off}}" hint-placeholder-val="{{ true }}"><span class="box box-off"></span></sc-if>
+          <span class="thumb" aria-hidden="true"></span>
+          <span style="flex: 1; display: flex; flex-direction: column"><span style="font-size: 15px; font-weight: 600">{{x.name}}</span><span class="muted">{{x.meta}}</span></span>
+          <span class="muted">{{x.last}}</span>
+        </button>
+      </sc-for>
+    </sc-if>
+
+    <h2 class="sec">{{listTitle}}</h2>
+    <sc-for list="{{results}}" as="x" hint-placeholder-count="8">
+      <button type="button" class="item" aria-pressed="{{x.pressed}}" onClick="{{x.toggle}}">
+        <sc-if value="{{x.on}}" hint-placeholder-val="{{ false }}"><span class="box box-on"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12l5 5 9-10"></path></svg></span></sc-if>
+        <sc-if value="{{x.off}}" hint-placeholder-val="{{ true }}"><span class="box box-off"></span></sc-if>
+        <span class="thumb" aria-hidden="true"></span>
+        <span style="flex: 1; display: flex; flex-direction: column"><span style="font-size: 15px; font-weight: 600">{{x.name}}</span><span class="muted">{{x.meta}}</span></span>
+        <span class="muted">{{x.last}}</span>
+      </button>
+    </sc-for>
+    <sc-if value="{{empty}}" hint-placeholder-val="{{ false }}">
+      <p class="muted" style="padding: 16px; margin: 0">찾는 운동이 없어요.</p>
+    </sc-if>
+    <button type="button" class="item" style="color: #1F1F1F; font-weight: 600">+ 새 운동 만들기 <span class="muted" style="font-weight: 400">"{{newName}}"</span></button>
+  </div>
+
+  <div style="padding: 12px 16px 28px; background: #FFFFFF; border-top: 1.5px solid #CFCFCF">
+    <a href="WorkoutLog.dc.html" class="btn btn-primary">{{addLabel}}</a>
+  </div>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":390,"height":1300}}'>
+class Component extends DCLogic {
+  constructor(props) {
+    super(props);
+    this.state = { q: '', part: '전체', equip: '', picked: { '랫풀다운': true } };
+  }
+  renderVals() {
+    const lib = [
+      ['벤치프레스', '가슴', '바벨', '10/12 75×6'],
+      ['인클라인 덤벨프레스', '가슴', '덤벨', '10/12 26×8'],
+      ['체스트 프레스 머신', '가슴', '머신', ''],
+      ['케이블 크로스오버', '가슴', '케이블', '10/12 15×12'],
+      ['딥스', '가슴', '맨몸', ''],
+      ['랫풀다운', '등', '머신', '10/9 57.5×8'],
+      ['바벨 로우', '등', '바벨', '10/9 60×8'],
+      ['시티드 케이블 로우', '등', '케이블', '10/9 50×10'],
+      ['풀업', '등', '맨몸', ''],
+      ['데드리프트', '등', '바벨', '9/30 120×5'],
+      ['스쿼트', '하체', '바벨', '10/13 92.5×6'],
+      ['레그프레스', '하체', '머신', '10/13 160×10'],
+      ['루마니안 데드리프트', '하체', '바벨', ''],
+      ['레그 익스텐션', '하체', '머신', ''],
+      ['오버헤드 프레스', '어깨', '바벨', '10/13 45×6'],
+      ['사이드 레터럴 레이즈', '어깨', '덤벨', '10/13 10×12'],
+      ['바벨 컬', '팔', '바벨', '10/9 30×10'],
+      ['트라이셉스 푸시다운', '팔', '케이블', '10/12 25×12'],
+      ['행잉 레그레이즈', '복근', '맨몸', ''],
+      ['러닝', '유산소', '맨몸', '10/11 7.0km']
+    ];
+    const s = this.state;
+    const mk = (r) => {
+      const on = !!s.picked[r[0]];
+      return {
+        name: r[0], meta: r[1] + ' · ' + r[2], last: r[3], on: on, off: !on, pressed: on ? 'true' : 'false',
+        toggle: () => this.setState({ picked: Object.assign({}, s.picked, { [r[0]]: !on }) })
+      };
+    };
+    const filtered = lib.filter((r) =>
+      (s.part === '전체' || r[1] === s.part) &&
+      (!s.equip || r[2] === s.equip) &&
+      (!s.q || r[0].indexOf(s.q.trim()) >= 0));
+    const parts = ['전체', '가슴', '등', '하체', '어깨', '팔', '복근', '유산소'].map((p) => ({
+      label: p, on: p === s.part, off: p !== s.part, pick: () => this.setState({ part: p })
+    }));
+    const equips = ['바벨', '덤벨', '머신', '케이블', '맨몸'].map((e) => ({
+      label: e, on: e === s.equip, off: e !== s.equip, pick: () => this.setState({ equip: e === s.equip ? '' : e })
+    }));
+    const showRecent = s.part === '전체' && !s.equip && !s.q;
+    const recentNames = ['랫풀다운', '바벨 로우', '시티드 케이블 로우', '바벨 컬', '스쿼트'];
+    const count = Object.keys(s.picked).filter((k) => s.picked[k]).length;
+    return {
+      q: s.q,
+      onQuery: (e) => this.setState({ q: e.target.value }),
+      parts: parts,
+      equips: equips,
+      showRecent: showRecent,
+      recent: lib.filter((r) => recentNames.indexOf(r[0]) >= 0).map(mk),
+      listTitle: showRecent ? '전체 운동' : '검색 결과 ' + filtered.length + '개',
+      results: filtered.map(mk),
+      empty: filtered.length === 0,
+      newName: s.q.trim() || '직접 입력',
+      addLabel: count > 0 ? count + '개 운동 추가' : '운동을 골라 주세요'
+    };
+  }
+}
+</script>
+</body>
+</html>

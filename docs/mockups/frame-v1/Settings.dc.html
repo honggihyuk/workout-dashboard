@@ -1,0 +1,122 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<title>설정</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+KR:wght@400;500;600;700&amp;display=swap">
+<style>
+body{margin:0}
+a{color:#1F1F1F}a:hover{color:#000000}
+.card{border:1.5px solid #CFCFCF;border-radius:14px;padding:4px 16px;background:#FFFFFF}
+.muted{font-size:13px;color:#5E5E5E}
+.row{min-height:48px;display:flex;align-items:center;justify-content:space-between;gap:12px;border-bottom:1px solid #E3E3E3;font-size:15px}
+.row-last{border-bottom:none}
+.tag{display:inline-flex;align-items:center;min-height:22px;padding:0 8px;border-radius:11px;font-size:12px}
+.t-daily{border:1.5px solid #1F1F1F;color:#1F1F1F}
+.t-work{background:#1F1F1F;color:#FFFFFF}
+.sw{width:52px;height:32px;border-radius:16px;border:none;padding:3px;cursor:pointer;display:flex}
+.sw-on{background:#1F1F1F;justify-content:flex-end}
+.sw-off{background:#BDBDBD;justify-content:flex-start}
+.knob{width:26px;height:26px;border-radius:13px;background:#FFFFFF}
+.field{width:100%;box-sizing:border-box;min-height:44px;border:1.5px solid #9A9A9A;border-radius:10px;padding:0 12px;font:inherit;font-size:15px;background:#FFFFFF;color:#1F1F1F}
+.btn{min-height:44px;padding:0 14px;border-radius:12px;display:flex;align-items:center;justify-content:center;font:inherit;font-size:15px;font-weight:600;cursor:pointer}
+.btn-primary{background:#1F1F1F;color:#FFFFFF;border:none}
+.btn-ghost{background:#FFFFFF;color:#1F1F1F;border:1.5px solid #9A9A9A}
+.link{background:none;border:none;font:inherit;font-size:14px;color:#1F1F1F;text-decoration:underline;cursor:pointer;min-height:44px;padding:0}
+.tab{flex:1;min-height:56px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:4px;font-size:12px;color:#5E5E5E;text-decoration:none}
+.tab-on{color:#1F1F1F;font-weight:700}
+h2{margin:0;font-size:14px;font-weight:700;color:#5E5E5E;padding:0 4px}
+</style>
+</helmet>
+<div style="width: 390px; height: 1240px; box-sizing: border-box; display: flex; flex-direction: column; background: #F4F4F4; font-family: 'IBM Plex Sans KR', sans-serif; color: #1F1F1F">
+  <div style="flex: 1; padding: 20px 16px; display: flex; flex-direction: column; gap: 10px">
+    <h1 style="margin: 0 0 6px; font-size: 22px; font-weight: 700">설정</h1>
+
+    <h2>운동 목록</h2>
+    <div class="card">
+      <div class="row"><span>벤치프레스</span><span class="muted">헬스</span></div>
+      <div class="row"><span>스쿼트</span><span class="muted">헬스</span></div>
+      <div class="row"><span>랫풀다운</span><span class="muted">헬스</span></div>
+      <div class="row"><span>러닝</span><span class="muted">러닝</span></div>
+      <div class="row row-last"><button type="button" class="link">+ 운동 추가</button><span class="muted">기록할 때 새 운동도 자동 추가</span></div>
+    </div>
+
+    <h2 style="margin-top: 8px">영양제·보충제</h2>
+    <div class="card">
+      <sc-for list="{{supps}}" as="s" hint-placeholder-count="9">
+        <div class="row"><span>{{s.name}}</span><span class="{{s.cls}}">{{s.kind}}</span></div>
+      </sc-for>
+      <div class="row row-last"><button type="button" class="link">+ 추가</button></div>
+    </div>
+
+    <h2 style="margin-top: 8px">알림</h2>
+    <div class="card">
+      <sc-for list="{{alerts}}" as="a" hint-placeholder-count="2">
+        <div class="row" style="min-height: 64px">
+          <div style="display: flex; flex-direction: column; gap: 2px">
+            <span>{{a.label}}</span>
+            <span class="muted">{{a.time}} · {{a.desc}}</span>
+          </div>
+          <sc-if value="{{a.on}}" hint-placeholder-val="{{ true }}"><button type="button" role="switch" aria-checked="true" aria-label="{{a.label}}" class="sw sw-on" onClick="{{a.toggle}}"><span class="knob"></span></button></sc-if>
+          <sc-if value="{{a.off}}" hint-placeholder-val="{{ false }}"><button type="button" role="switch" aria-checked="false" aria-label="{{a.label}}" class="sw sw-off" onClick="{{a.toggle}}"><span class="knob"></span></button></sc-if>
+        </div>
+      </sc-for>
+      <div class="row row-last"><span class="muted">이미 기록했으면 알림을 보내지 않아요</span></div>
+    </div>
+
+    <h2 style="margin-top: 8px">엑셀 내려받기</h2>
+    <div class="card" style="padding: 16px; display: flex; flex-direction: column; gap: 10px">
+      <div style="display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 8px">
+        <label style="display: flex; flex-direction: column; gap: 4px"><span class="muted">시작일</span><input class="field" type="date" defaultValue="2026-09-01"></label>
+        <label style="display: flex; flex-direction: column; gap: 4px"><span class="muted">종료일</span><input class="field" type="date" defaultValue="2026-10-14"></label>
+      </div>
+      <button type="button" class="btn btn-primary">내려받기</button>
+      <span class="muted">운동·러닝·식사·영양제·컨디션·체중·인바디가 시트별로 담겨요. 사진은 빠져요.</span>
+    </div>
+
+    <h2 style="margin-top: 8px">계정</h2>
+    <div class="card">
+      <div class="row"><span>구글 계정</span><span class="muted">연결됨</span></div>
+      <div class="row row-last"><button type="button" class="link">로그아웃</button></div>
+    </div>
+  </div>
+
+  <nav aria-label="주요 메뉴" style="display: flex; border-top: 1.5px solid #CFCFCF; background: #FFFFFF; padding-bottom: 16px">
+    <a href="Main.dc.html" class="tab"><span style="width: 22px; height: 22px; border-radius: 6px; border: 1.5px solid #9A9A9A; box-sizing: border-box"></span>오늘</a>
+    <a href="Workout.dc.html" class="tab"><span style="width: 22px; height: 22px; border-radius: 6px; border: 1.5px solid #9A9A9A; box-sizing: border-box"></span>운동</a>
+    <a href="Meals.dc.html" class="tab"><span style="width: 22px; height: 22px; border-radius: 6px; border: 1.5px solid #9A9A9A; box-sizing: border-box"></span>식단</a>
+    <a href="Body.dc.html" class="tab"><span style="width: 22px; height: 22px; border-radius: 6px; border: 1.5px solid #9A9A9A; box-sizing: border-box"></span>몸 변화</a>
+    <a href="Settings.dc.html" class="tab tab-on" aria-current="page"><span style="width: 22px; height: 22px; border-radius: 6px; background: #1F1F1F"></span>설정</a>
+  </nav>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":390,"height":1240}}'>
+class Component extends DCLogic {
+  constructor(props) {
+    super(props);
+    this.state = { morning: true, evening: true };
+  }
+  renderVals() {
+    const daily = ['비타민C', '루테인', 'rTG 오메가3', '칼슘·마그네슘·비타민D·아연·망간', '프로바이오틱스'];
+    const work = ['크레아틴', 'EAA', '글루타민', 'WPI 쉐이크'];
+    const supps = daily.map((n) => ({ name: n, kind: '매일', cls: 'tag t-daily' }))
+      .concat(work.map((n) => ({ name: n, kind: n === 'WPI 쉐이크' ? '운동하는 날 · 러닝만 한 날 선택' : '운동하는 날', cls: 'tag t-work' })));
+    const mk = (key, label, time, desc) => ({
+      label: label, time: time, desc: desc,
+      on: this.state[key], off: !this.state[key],
+      toggle: () => this.setState({ [key]: !this.state[key] })
+    });
+    return {
+      supps: supps,
+      alerts: [mk('morning', '아침 컨디션', '오전 10:00', '아직 체크 안 했을 때'), mk('evening', '운동 기록 · 영양제', '오후 10:00', '남은 항목이 있을 때')]
+    };
+  }
+}
+</script>
+</body>
+</html>
